@@ -1,0 +1,43 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: BoredApeYachtClub
+    network: mainnet
+    source:
+      address: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d"
+      abi: BoredApeYachtClub
+      startBlock: 12287507
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - Transfer
+      abis:
+        - name: BoredApeYachtClub
+          file: BoredApeYachtClub/abis/BoredApeYachtClub.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: BoredApeYachtClub/BoredApeYachtClub.wasm
+templates:
+  - kind: file/ipfs
+    name: IpfsContent
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ApeContent
+      abis:
+        - name: BoredApeYachtClub
+          file: IpfsContent/abis/BoredApeYachtClub.json
+      handler: handleApeContent
+      file: BoredApeYachtClub/BoredApeYachtClub.wasm

@@ -17,8 +17,6 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Approval
-        - ApprovalForAll
-        - OwnershipTransferred
         - Transfer
       abis:
         - name: BoredApeYachtClub
@@ -26,10 +24,20 @@ dataSources:
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
           handler: handleApproval
-        - event: ApprovalForAll(indexed address,indexed address,bool)
-          handler: handleApprovalForAll
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
+      file: ./src/bored-ape-yacht-club.ts
+templates:
+  - kind: file/ipfs
+    name: IpfsContent
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ApeContent
+      abis:
+        - name: BoredApeYachtClub
+          file: ./abis/BoredApeYachtClub.json
+      handler: handleApeContent
       file: ./src/bored-ape-yacht-club.ts
